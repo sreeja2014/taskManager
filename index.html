@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Task Manager</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+    }
+    .task {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px;
+      border: 1px solid #ccc;
+      margin-bottom: 5px;
+      border-radius: 5px;
+    }
+    .task.completed {
+      text-decoration: line-through;
+      color: gray;
+    }
+    .remove-btn {
+      background-color: red;
+      color: white;
+      border: none;
+      padding: 5px 10px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <h1>Task Manager</h1>
+  <div>
+    <input type="text" id="taskInput" placeholder="Enter a new task">
+    <button id="addTaskBtn">Add Task</button>
+  </div>
+  <ul id="taskList"></ul>
+
+  <script>
+    // Select DOM elements
+    const taskInput = document.getElementById('taskInput');
+    const addTaskBtn = document.getElementById('addTaskBtn');
+    const taskList = document.getElementById('taskList');
+
+    // Add a new task
+    addTaskBtn.addEventListener('click', () => {
+      const taskText = taskInput.value.trim();
+
+      if (taskText === '') {
+        alert('Please enter a task!');
+        return;
+      }
+
+      // Create task elements
+      const taskItem = document.createElement('li');
+      taskItem.classList.add('task');
+      taskItem.textContent = taskText;
+
+      const removeBtn = document.createElement('button');
+      removeBtn.textContent = 'Remove';
+      removeBtn.classList.add('remove-btn');
+
+      // Append remove button to the task
+      taskItem.appendChild(removeBtn);
+
+      // Append task to the list
+      taskList.appendChild(taskItem);
+
+      // Clear input field
+      taskInput.value = '';
+
+      // Mark task as completed
+      taskItem.addEventListener('click', (e) => {
+        if (e.target !== removeBtn) {
+          taskItem.classList.toggle('completed');
+        }
+      });
+
+      // Remove the task
+      removeBtn.addEventListener('click', () => {
+        taskList.removeChild(taskItem);
+      });
+    });
+  </script>
+</body>
+</html>
